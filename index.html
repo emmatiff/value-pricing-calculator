@@ -6,22 +6,7 @@
     <title>Value-Based Project Pricing Calculator</title>
     
     <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'pricing-beige': '#FCF9F5',
-                        'pricing-brown': '#BE957F',
-                        'pricing-dark': '#29312D',
-                        'pricing-light': '#F1EBE4',
-                        'pricing-border': '#C8C8C0',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     <!-- React and ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -30,43 +15,152 @@
     <!-- Babel for JSX support -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Lucide React for icons -->
-    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
-    
     <style>
         body {
             background-color: #f5f5f5;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
+        /* Basic test CSS to verify Tailwind isn't loading */
+        .test-box {
+            background-color: #3b82f6;
+            color: white;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
+    <!-- Test box to check if Tailwind is working -->
+    <div class="test-box">
+        If Tailwind is working, this box should have Tailwind styling (blue background, white text, rounded corners).
+    </div>
+    <div class="bg-red-500 text-white p-4 m-4 rounded shadow">
+        If Tailwind is working, this should be a red box with white text.
+    </div>
+
     <div id="root" class="py-8"></div>
     
-    <!-- Link to your external JavaScript -->
-    <script type="text/babel" src="calculator.js"></script>
-    
-    <!-- Or include your code inline -->
     <script type="text/babel">
-        // If you prefer to include your React component code directly here,
-        // paste your ValuePricingCalculator component code here
-        
-        // Example:
-        /*
+        // Simplified calculator without relying on Lucide icons
         const ValuePricingCalculator = () => {
-            // Your calculator code here
-            return (
-                <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-                    <h1 className="text-2xl font-bold text-center mb-6">Value-Based Project Pricing Calculator</h1>
-                    // Rest of your calculator UI
+          // State for BAM calculation
+          const [bamInputs, setBamInputs] = React.useState({
+            monthlySalary: 5000,
+            monthlyProfit: 1667,
+            monthlyExpenses: 1250,
+            monthlyBillableHours: 100, // Default: 25 hours/week, 4 weeks/month
+          });
+          
+          // Calculated results
+          const [bam, setBam] = React.useState(0);
+          
+          // Handle BAM input changes
+          const handleBamInputChange = (e) => {
+            const { name, value } = e.target;
+            setBamInputs({
+              ...bamInputs,
+              [name]: value === '' ? '' : parseFloat(value)
+            });
+          };
+          
+          // Calculate BAM whenever inputs change
+          React.useEffect(() => {
+            if (bamInputs.monthlyBillableHours > 0) {
+              const totalMonthlyIncome = bamInputs.monthlySalary + bamInputs.monthlyProfit + bamInputs.monthlyExpenses;
+              const calculatedBam = totalMonthlyIncome / bamInputs.monthlyBillableHours;
+              setBam(calculatedBam);
+            }
+          }, [bamInputs]);
+          
+          return (
+            <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+              <h1 className="text-2xl font-bold text-center mb-6">Value-Based Project Pricing Calculator</h1>
+              
+              {/* BAM Calculation Section */}
+              <div className="mb-8 p-4 border rounded-lg bg-gray-50">
+                <h2 className="text-lg font-semibold mb-4">1. Calculate Your Bare Minimum Hourly Rate (BAM)</h2>
+                <p className="text-sm text-gray-600 mb-4">
+                  This is the absolute minimum hourly rate you need to cover your salary, expenses, and profit goals.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Monthly Desired Salary ($)
+                    </label>
+                    <input
+                      type="number"
+                      name="monthlySalary"
+                      value={bamInputs.monthlySalary}
+                      onChange={handleBamInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Monthly Profit Goal ($)
+                    </label>
+                    <input
+                      type="number"
+                      name="monthlyProfit"
+                      value={bamInputs.monthlyProfit}
+                      onChange={handleBamInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Monthly Business Expenses ($)
+                    </label>
+                    <input
+                      type="number"
+                      name="monthlyExpenses"
+                      value={bamInputs.monthlyExpenses}
+                      onChange={handleBamInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Monthly Billable Hours
+                    </label>
+                    <input
+                      type="number"
+                      name="monthlyBillableHours"
+                      value={bamInputs.monthlyBillableHours}
+                      onChange={handleBamInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Example: 25 hours/week × 4 weeks = 100 hours
+                    </p>
+                  </div>
                 </div>
-            );
+                
+                <div className="bg-blue-50 p-3 rounded-md border border-blue-200">
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-medium text-blue-800">Your Bare Minimum Hourly Rate:</h3>
+                    <span className="text-2xl font-bold text-blue-800">
+                      ${bam.toFixed(2)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-600 mt-1">
+                    This is your absolute minimum hourly rate. Your project rates should be higher than this.
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
         };
         
         // Render the calculator
         const rootElement = document.getElementById('root');
         ReactDOM.createRoot(rootElement).render(<ValuePricingCalculator />);
-        */
     </script>
 </body>
 </html>
