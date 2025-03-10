@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value-Based Project Pricing Calculator</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pricing-beige': '#FCF9F5',
+                        'pricing-brown': '#BE957F',
+                        'pricing-dark': '#29312D',
+                        'pricing-light': '#F1EBE4',
+                        'pricing-border': '#C8C8C0',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX support -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide React for icons -->
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="py-8"></div>
+    
+    <!-- Link to your external JavaScript -->
+    <script type="text/babel" src="calculator.js"></script>
+    
+    <!-- Or include your code inline -->
+    <script type="text/babel">
+        // If you prefer to include your React component code directly here,
+        // paste your ValuePricingCalculator component code here
+        
+        // Example:
+        /*
+        const ValuePricingCalculator = () => {
+            // Your calculator code here
+            return (
+                <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+                    <h1 className="text-2xl font-bold text-center mb-6">Value-Based Project Pricing Calculator</h1>
+                    // Rest of your calculator UI
+                </div>
+            );
+        };
+        
+        // Render the calculator
+        const rootElement = document.getElementById('root');
+        ReactDOM.createRoot(rootElement).render(<ValuePricingCalculator />);
+        */
+    </script>
+</body>
+</html>
